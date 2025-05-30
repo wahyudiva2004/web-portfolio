@@ -6,12 +6,12 @@ class Chatbot {
         this.input = document.querySelector('#chatInput');
         this.sendBtn = document.querySelector('.send-message');
         this.messagesContainer = document.querySelector('.chatbot-messages');
-        
+
         this.initEventListeners();
-        this.apiEndpoint = 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2';
+        this.apiEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
         this.apiKey = '';
         this.initApiKey();
-        
+
         this.systemPrompt = `Kamu adalah asisten AI portfolio Wahyu Diva. WAJIB menggunakan Bahasa Indonesia yang baik dan benar dalam setiap jawaban. PENTING: Berikan jawaban yang LENGKAP dan TIDAK TERPOTONG.
 
         PERAN UTAMA:
@@ -26,31 +26,31 @@ class Chatbot {
         Status: Mahasiswa Teknik Informatika & Junior Fullstack Dev
         Lahir: 15 Juni 2004
         Pengalaman: 2+ tahun, 50+ proyek, 30+ klien puas
-        
+
         KEAHLIAN:
         Frontend:
         - HTML/CSS (90%)
         - JavaScript (85%)
         - React (45%)
-        
+
         Backend:
         - Node.js (50%)
         - PHP (80%)
-        
+
         Database & Tools:
         - MySQL (75%)
         - SQL Server (60%)
         - Git & GitHub (85%)
-        
+
         PROYEK UNGGULAN:
         1. FlashPlay
            - Platform streaming trailer film
            - Teknologi: TMDB API, YouTube player
-        
+
         2. FlashBot
            - Chatbot AI pintar
            - Teknologi: Vue.js, Cohere AI, Weather API
-        
+
         3. Portfolio Website
            - Desain cyberpunk modern
            - Fitur: Animasi responsif
@@ -104,7 +104,7 @@ class Chatbot {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            this.apiKey = data.HUGGING_FACE_API_KEY;
+            this.apiKey = data.GEMINI_API_KEY;
             if (!this.apiKey) {
                 console.warn('API key is empty');
             } else {
@@ -187,33 +187,53 @@ class Chatbot {
                 .map(msg => `${msg.role === 'user' ? 'User' : 'Assistant'}: ${msg.content}`)
                 .join('\n');
 
-            const fullPrompt = `<s>[INST] ${this.systemPrompt}\n\nRiwayat:\n${conversationContext}\n\nUser: ${message} [/INST]`;
+            const fullPrompt = `${this.systemPrompt}\n\nRiwayat:\n${conversationContext}\n\nUser: ${message}`;
 
-            const response = await fetch(this.apiEndpoint, {
+            const response = await fetch(`${this.apiEndpoint}?key=${this.apiKey}`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.apiKey}`
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    inputs: fullPrompt,
-                    parameters: {
-                        max_new_tokens: 500,
+                    contents: [{
+                        parts: [{
+                            text: fullPrompt
+                        }]
+                    }],
+                    generationConfig: {
                         temperature: 0.7,
-                        top_p: 0.95,
-                        return_full_text: false,
-                        do_sample: true,
-                        top_k: 40
-                    }
+                        topP: 0.95,
+                        topK: 40,
+                        maxOutputTokens: 500,
+                        responseMimeType: "text/plain"
+                    },
+                    safetySettings: [
+                        {
+                            category: "HARM_CATEGORY_HARASSMENT",
+                            threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                        },
+                        {
+                            category: "HARM_CATEGORY_HATE_SPEECH",
+                            threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                        },
+                        {
+                            category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                            threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                        },
+                        {
+                            category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+                            threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                        }
+                    ]
                 })
             });
 
             if (!response.ok) {
-                throw new Error('API request failed');
+                throw new Error(`API request failed: ${response.status}`);
             }
 
             const data = await response.json();
-            return data[0].generated_text.trim();
+            return data.candidates[0].content.parts[0].text.trim();
         } catch (error) {
             console.error('API Error:', error);
             throw error;

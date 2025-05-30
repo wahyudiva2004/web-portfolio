@@ -17,13 +17,13 @@ module.exports = async (req, res) => {
     }
 
     try {
-        const apiKey = process.env.HUGGING_FACE_API_KEY;
+        const apiKey = process.env.GEMINI_API_KEY;
         if (!apiKey) {
-            console.warn('Warning: HUGGING_FACE_API_KEY is not set in environment variables');
+            console.warn('Warning: GEMINI_API_KEY is not set in environment variables');
         }
 
         return res.status(200).json({
-            HUGGING_FACE_API_KEY: apiKey || ''
+            GEMINI_API_KEY: apiKey || ''
         });
     } catch (error) {
         console.error('Error in /api/config:', error);

@@ -10,13 +10,13 @@ export default function handler(req, res) {
     res.setHeader('Content-Type', 'application/json');
 
     try {
-        const apiKey = process.env.HUGGING_FACE_API_KEY;
+        const apiKey = process.env.GEMINI_API_KEY;
         if (!apiKey) {
-            console.warn('HUGGING_FACE_API_KEY is not set');
+            console.warn('GEMINI_API_KEY is not set');
         }
-        
+
         return res.status(200).json({
-            HUGGING_FACE_API_KEY: apiKey || ''
+            GEMINI_API_KEY: apiKey || ''
         });
     } catch (error) {
         console.error('API Error:', error);
