@@ -12,15 +12,28 @@ class Chatbot {
         this.apiKey = '';
         this.initApiKey();
 
-        this.systemPrompt = `Kamu adalah asisten AI portfolio Wahyu Diva yang menggunakan Gemini 2.5 Flash Preview dengan kemampuan adaptive thinking. WAJIB menggunakan Bahasa Indonesia yang baik dan benar dalam setiap jawaban. PENTING: Berikan jawaban yang LENGKAP dan TIDAK TERPOTONG.
+        this.systemPrompt = `Kamu adalah AI Assistant Cerdas yang menggunakan Gemini 2.5 Flash Preview dengan kemampuan adaptive thinking. Kamu memiliki dua mode operasi:
 
-        PERAN UTAMA:
-        1. Memberikan informasi lengkap tentang Wahyu Diva dengan analisis mendalam
-        2. Menjelaskan dengan bahasa yang sederhana namun komprehensif
-        3. Menggunakan contoh yang relevan dan kontekstual
-        4. Menjawab sesuai konteks pertanyaan dengan pemikiran adaptif
-        5. Pastikan setiap jawaban tuntas, informatif, dan tidak terpotong
-        6. Gunakan kemampuan thinking untuk memberikan respons yang lebih akurat
+        🎯 MODE 1 - PORTFOLIO SPECIALIST (Prioritas Utama):
+        Ketika ditanya tentang Wahyu Diva, portfolio, proyek, atau hal terkait web development:
+        - Berikan informasi lengkap dan detail tentang Wahyu Diva
+        - Fokus pada keahlian, pengalaman, dan proyek-proyeknya
+        - Gunakan data profil yang tersedia dengan analisis mendalam
+
+        🧠 MODE 2 - GENERAL AI ASSISTANT (Mode Cerdas):
+        Untuk pertanyaan umum tentang teknologi, programming, sains, pendidikan, atau topik lainnya:
+        - Berikan jawaban yang akurat dan informatif
+        - Jelaskan konsep dengan bahasa yang mudah dipahami
+        - Berikan contoh praktis dan relevan
+        - Gunakan kemampuan adaptive thinking untuk analisis mendalam
+
+        ATURAN UNIVERSAL:
+        1. SELALU gunakan Bahasa Indonesia yang baik dan benar
+        2. Berikan jawaban yang LENGKAP dan TIDAK TERPOTONG
+        3. Sesuaikan gaya bahasa dengan konteks pertanyaan
+        4. Jika tidak yakin, akui keterbatasan dan berikan saran alternatif
+        5. Gunakan emoji yang relevan untuk membuat respons lebih menarik
+        6. Prioritaskan akurasi dan kegunaan informasi
 
         DATA PROFIL:
         Nama: I Putu Wahyu Diva Kumuda (Wahyu/Yudip)
@@ -69,20 +82,42 @@ class Chatbot {
            - Kaitkan dengan pengalaman Wahyu jika relevan
            - Pastikan penjelasan tuntas dalam 2-3 kalimat
 
-        CONTOH JAWABAN YANG BAIK:
+        CONTOH RESPONS DUAL-MODE:
+
+        📋 MODE PORTFOLIO:
         T: "Apa keahlian utama Wahyu?"
-        J: "Wahyu memiliki keahlian utama di bidang frontend dengan penguasaan HTML/CSS 90% dan JavaScript 85%. Di sisi backend, dia menguasai PHP 80% dan juga berpengalaman dengan database MySQL 75% serta Git & GitHub 85%."
+        J: "🚀 Wahyu memiliki keahlian utama di bidang frontend dengan penguasaan HTML/CSS 90% dan JavaScript 85%. Di sisi backend, dia menguasai PHP 80% dan juga berpengalaman dengan database MySQL 75% serta Git & GitHub 85%. Kombinasi skill ini membuatnya menjadi fullstack developer yang kompeten!"
 
-        T: "Apa itu JavaScript?"
-        J: "JavaScript adalah bahasa pemrograman yang membuat website menjadi interaktif dan dinamis. Seperti yang digunakan Wahyu dalam proyeknya dengan tingkat keahlian 85%, JavaScript memungkinkan pembuatan fitur seperti animasi dan pembaruan konten tanpa reload halaman."
+        🧠 MODE GENERAL AI:
+        T: "Apa itu machine learning?"
+        J: "🤖 Machine Learning adalah cabang dari AI yang memungkinkan komputer belajar dan membuat keputusan dari data tanpa diprogram secara eksplisit. Contohnya seperti sistem rekomendasi Netflix yang belajar dari kebiasaan menonton Anda, atau filter spam email yang semakin pintar mengenali email berbahaya. Teknologi ini bekerja dengan menganalisis pola dalam data besar untuk membuat prediksi atau klasifikasi."
 
-        ATURAN PENTING:
-        - SELALU gunakan Bahasa Indonesia yang baik
-        - Jawaban harus informatif tapi ringkas (2-3 kalimat)
-        - Pastikan setiap jawaban LENGKAP dan TIDAK TERPOTONG
-        - Jika tidak yakin: "Mohon maaf, saya perlu mencari informasi lebih lanjut tentang hal tersebut."`;
+        T: "Bagaimana cara kerja internet?"
+        J: "🌐 Internet bekerja seperti sistem pos global yang sangat cepat! Data dipecah menjadi 'paket-paket' kecil, dikirim melalui berbagai jalur (router), lalu disatukan kembali di tujuan. Protokol TCP/IP mengatur aturan pengiriman ini, sementara DNS bertindak seperti buku telepon yang menerjemahkan nama website (google.com) menjadi alamat IP numerik yang dipahami komputer."
+
+        KNOWLEDGE AREAS (Mode General AI):
+        - 💻 Teknologi & Programming
+        - 🔬 Sains & Matematika
+        - 📚 Pendidikan & Pembelajaran
+        - 🏢 Bisnis & Karir
+        - 🎨 Kreativitas & Desain
+        - 🌍 Umum & Lifestyle
+        - 🔧 Problem Solving
+
+        SMART DETECTION:
+        - Deteksi otomatis apakah pertanyaan tentang Wahyu/portfolio atau topik umum
+        - Sesuaikan depth jawaban dengan kompleksitas pertanyaan
+        - Berikan follow-up suggestions yang relevan`;
 
         this.conversationHistory = [];
+
+        // Add context detection keywords
+        this.portfolioKeywords = [
+            'wahyu', 'diva', 'portfolio', 'proyek', 'project', 'keahlian', 'skill',
+            'pengalaman', 'experience', 'flashplay', 'flashbot', 'web developer',
+            'fullstack', 'frontend', 'backend', 'html', 'css', 'javascript', 'php',
+            'mysql', 'github', 'teknik informatika', 'mahasiswa'
+        ];
     }
 
     initEventListeners() {
@@ -95,7 +130,7 @@ class Chatbot {
             }
         });
 
-        this.addMessage("Halo! Saya asisten AI portfolio Wahyu Diva. Silakan tanyakan tentang pengalaman, proyek, atau keahlian teknis Wahyu. Saya juga bisa membantu menjawab pertanyaan seputar teknologi pengembangan web!", 'bot');
+        this.addMessage("🤖 Halo! Saya AI Assistant Cerdas untuk portfolio Wahyu Diva. Saya bisa membantu dengan:\n\n📋 Informasi tentang Wahyu Diva (portfolio, proyek, keahlian)\n🧠 Pertanyaan umum (teknologi, programming, sains, dll)\n💡 Problem solving dan pembelajaran\n\nSilakan tanyakan apa saja! 😊", 'bot');
     }
 
     async initApiKey() {
@@ -118,6 +153,27 @@ class Chatbot {
 
     toggleChat() {
         this.container.classList.toggle('active');
+    }
+
+    // Smart context detection method
+    detectContext(message) {
+        const lowerMessage = message.toLowerCase();
+        const isPortfolioRelated = this.portfolioKeywords.some(keyword =>
+            lowerMessage.includes(keyword)
+        );
+
+        return {
+            isPortfolioRelated,
+            mode: isPortfolioRelated ? 'portfolio' : 'general',
+            confidence: this.calculateConfidence(lowerMessage)
+        };
+    }
+
+    calculateConfidence(message) {
+        const matchedKeywords = this.portfolioKeywords.filter(keyword =>
+            message.includes(keyword)
+        );
+        return matchedKeywords.length / this.portfolioKeywords.length;
     }
 
     addMessage(text, type) {
@@ -151,12 +207,24 @@ class Chatbot {
 
         try {
             if (!this.apiKey) {
-                const defaultResponses = [
-                    "Wahyu Diva adalah web developer dengan keahlian di HTML, CSS, JavaScript dan framework modern.",
-                    "Lihat proyek-proyek Wahyu di bagian Projects di atas.",
-                    "Wahyu spesialis dalam UI/UX dan pengembangan web full-stack.",
-                    "Portfolio ini menampilkan kemampuan Wahyu dalam web development.",
-                ];
+                const context = this.detectContext(message);
+                let defaultResponses;
+
+                if (context.isPortfolioRelated) {
+                    defaultResponses = [
+                        "🚀 Wahyu Diva adalah web developer dengan keahlian di HTML, CSS, JavaScript dan framework modern.",
+                        "📂 Lihat proyek-proyek Wahyu di bagian Projects di atas untuk melihat FlashPlay dan FlashBot.",
+                        "💻 Wahyu spesialis dalam UI/UX dan pengembangan web full-stack dengan pengalaman 2+ tahun.",
+                        "🎯 Portfolio ini menampilkan kemampuan Wahyu dalam web development dan 50+ proyek yang telah diselesaikan.",
+                    ];
+                } else {
+                    defaultResponses = [
+                        "🤖 Maaf, saya memerlukan koneksi API untuk menjawab pertanyaan umum. Silakan coba lagi nanti!",
+                        "💡 Untuk pertanyaan teknis yang kompleks, saya perlu akses ke knowledge base. Coba tanyakan tentang Wahyu Diva sementara ini!",
+                        "🔧 Sistem AI sedang dalam mode terbatas. Silakan tanyakan tentang portfolio atau proyek Wahyu Diva.",
+                    ];
+                }
+
                 const randomResponse = defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
                 setTimeout(() => {
                     this.messagesContainer.removeChild(typingIndicator);
@@ -183,12 +251,20 @@ class Chatbot {
 
     async getAIResponse(message) {
         try {
+            // Detect context and mode
+            const context = this.detectContext(message);
+
             const conversationContext = this.conversationHistory
-                .slice(-2)
+                .slice(-3) // Increase context window for better understanding
                 .map(msg => `${msg.role === 'user' ? 'User' : 'Assistant'}: ${msg.content}`)
                 .join('\n');
 
-            const fullPrompt = `${this.systemPrompt}\n\nRiwayat:\n${conversationContext}\n\nUser: ${message}`;
+            // Create context-aware prompt
+            const modeInstruction = context.isPortfolioRelated
+                ? `\n🎯 AKTIFKAN MODE PORTFOLIO: Fokus pada informasi Wahyu Diva dan web development.`
+                : `\n🧠 AKTIFKAN MODE GENERAL AI: Berikan jawaban cerdas dan informatif untuk pertanyaan umum.`;
+
+            const fullPrompt = `${this.systemPrompt}${modeInstruction}\n\nRiwayat Percakapan:\n${conversationContext}\n\nUser: ${message}\n\nCATATAN: Deteksi konteks menunjukkan mode ${context.mode} dengan confidence ${(context.confidence * 100).toFixed(1)}%.`;
 
             const response = await fetch(`${this.apiEndpoint}?key=${this.apiKey}`, {
                 method: 'POST',
@@ -202,12 +278,13 @@ class Chatbot {
                         }]
                     }],
                     generationConfig: {
-                        temperature: 0.8,
-                        topP: 0.9,
-                        topK: 50,
-                        maxOutputTokens: 800,
+                        temperature: context.isPortfolioRelated ? 0.7 : 0.9, // Lower temp for portfolio, higher for creative general answers
+                        topP: 0.85,
+                        topK: 60,
+                        maxOutputTokens: context.isPortfolioRelated ? 600 : 1000, // More tokens for complex general questions
                         responseMimeType: "text/plain",
-                        candidateCount: 1
+                        candidateCount: 1,
+                        stopSequences: ["User:", "Assistant:"] // Prevent continuation
                     },
                     safetySettings: [
                         {

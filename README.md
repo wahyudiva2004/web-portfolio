@@ -5,7 +5,10 @@ Personal portfolio website featuring an AI-powered chatbot using the Google Gemi
 ## 🌟 Features
 
 - Modern and responsive design
-- AI Chatbot powered by Google Gemini 2.5 Flash Preview (Latest Model - May 2025)
+- **🧠 Smart AI Chatbot** powered by Google Gemini 2.5 Flash Preview (Latest Model - May 2025)
+- **🎯 Dual-Mode Intelligence**: Portfolio Specialist + General AI Assistant
+- **🔍 Smart Context Detection**: Automatically detects question type and adjusts response
+- **💡 Universal Knowledge**: Can answer questions about technology, science, programming, and more
 - Adaptive thinking capabilities for more accurate responses
 - Dynamic typing animations
 - Dark mode support
@@ -106,17 +109,36 @@ For local development:
 **Current Model**: Google Gemini 2.5 Flash Preview 05-20
 
 - **Release Date**: May 2025 (Latest Available)
-- **Capabilities**:
-  - Adaptive thinking for enhanced accuracy
-  - Multimodal support (text, images, audio, video)
-  - Structured outputs
-  - Function calling
-  - Code execution
-  - Search grounding
-- **Free Tier Limits**:
-  - 10 requests per minute
-  - 250,000 tokens per minute
-  - 500 requests per day
+- **Intelligence Level**: **Smart AI Assistant** with dual-mode capabilities
+
+### 🧠 **Smart Features**:
+
+- **🎯 Dual-Mode Operation**:
+  - **Portfolio Mode**: Expert knowledge about Wahyu Diva, projects, and web development
+  - **General AI Mode**: Universal knowledge assistant for any topic
+- **🔍 Smart Context Detection**: Automatically detects question type and switches modes
+- **💡 Knowledge Areas**:
+  - 💻 Technology & Programming
+  - 🔬 Science & Mathematics
+  - 📚 Education & Learning
+  - 🏢 Business & Career
+  - 🎨 Creativity & Design
+  - 🌍 General Knowledge
+  - 🔧 Problem Solving
+
+### ⚡ **Technical Capabilities**:
+
+- Adaptive thinking for enhanced accuracy
+- Multimodal support (text, images, audio, video)
+- Context-aware parameter optimization
+- Enhanced error handling
+- Smart conversation history management
+
+### 📊 **Free Tier Limits**:
+
+- 10 requests per minute
+- 250,000 tokens per minute
+- 500 requests per day
 
 ## 🤝 Contributing
 
@@ -139,7 +161,10 @@ Website portfolio pribadi yang dilengkapi dengan chatbot AI menggunakan Google G
 ## 🌟 Fitur
 
 - Desain modern dan responsif
-- Chatbot AI yang didukung oleh Google Gemini 2.5 Flash Preview (Model Terbaru - Mei 2025)
+- **🧠 Smart AI Chatbot** yang didukung oleh Google Gemini 2.5 Flash Preview (Model Terbaru - Mei 2025)
+- **🎯 Dual-Mode Intelligence**: Portfolio Specialist + General AI Assistant
+- **🔍 Smart Context Detection**: Otomatis mendeteksi jenis pertanyaan dan menyesuaikan respons
+- **💡 Universal Knowledge**: Dapat menjawab pertanyaan tentang teknologi, sains, programming, dan lainnya
 - Kemampuan adaptive thinking untuk respons yang lebih akurat
 - Animasi pengetikan dinamis
 - Mendukung mode gelap
