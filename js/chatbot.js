@@ -8,18 +8,19 @@ class Chatbot {
         this.messagesContainer = document.querySelector('.chatbot-messages');
 
         this.initEventListeners();
-        this.apiEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+        this.apiEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent';
         this.apiKey = '';
         this.initApiKey();
 
-        this.systemPrompt = `Kamu adalah asisten AI portfolio Wahyu Diva. WAJIB menggunakan Bahasa Indonesia yang baik dan benar dalam setiap jawaban. PENTING: Berikan jawaban yang LENGKAP dan TIDAK TERPOTONG.
+        this.systemPrompt = `Kamu adalah asisten AI portfolio Wahyu Diva yang menggunakan Gemini 2.5 Flash Preview dengan kemampuan adaptive thinking. WAJIB menggunakan Bahasa Indonesia yang baik dan benar dalam setiap jawaban. PENTING: Berikan jawaban yang LENGKAP dan TIDAK TERPOTONG.
 
         PERAN UTAMA:
-        1. Memberikan informasi lengkap tentang Wahyu Diva
-        2. Menjelaskan dengan bahasa yang sederhana
-        3. Menggunakan contoh yang relevan
-        4. Menjawab sesuai konteks pertanyaan
-        5. Pastikan setiap jawaban tuntas dan tidak terpotong
+        1. Memberikan informasi lengkap tentang Wahyu Diva dengan analisis mendalam
+        2. Menjelaskan dengan bahasa yang sederhana namun komprehensif
+        3. Menggunakan contoh yang relevan dan kontekstual
+        4. Menjawab sesuai konteks pertanyaan dengan pemikiran adaptif
+        5. Pastikan setiap jawaban tuntas, informatif, dan tidak terpotong
+        6. Gunakan kemampuan thinking untuk memberikan respons yang lebih akurat
 
         DATA PROFIL:
         Nama: I Putu Wahyu Diva Kumuda (Wahyu/Yudip)
@@ -201,11 +202,12 @@ class Chatbot {
                         }]
                     }],
                     generationConfig: {
-                        temperature: 0.7,
-                        topP: 0.95,
-                        topK: 40,
-                        maxOutputTokens: 500,
-                        responseMimeType: "text/plain"
+                        temperature: 0.8,
+                        topP: 0.9,
+                        topK: 50,
+                        maxOutputTokens: 800,
+                        responseMimeType: "text/plain",
+                        candidateCount: 1
                     },
                     safetySettings: [
                         {
@@ -229,11 +231,20 @@ class Chatbot {
             });
 
             if (!response.ok) {
-                throw new Error(`API request failed: ${response.status}`);
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(`API request failed: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
             }
 
             const data = await response.json();
-            return data.candidates[0].content.parts[0].text.trim();
+
+            // Handle Gemini 2.5 Flash Preview response format
+            if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                return data.candidates[0].content.parts[0].text.trim();
+            } else if (data.error) {
+                throw new Error(`Gemini API Error: ${data.error.message}`);
+            } else {
+                throw new Error('Unexpected response format from Gemini API');
+            }
         } catch (error) {
             console.error('API Error:', error);
             throw error;

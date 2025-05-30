@@ -5,7 +5,8 @@ Personal portfolio website featuring an AI-powered chatbot using the Google Gemi
 ## 🌟 Features
 
 - Modern and responsive design
-- AI Chatbot powered by Google Gemini 2.0 Flash
+- AI Chatbot powered by Google Gemini 2.5 Flash Preview (Latest Model - May 2025)
+- Adaptive thinking capabilities for more accurate responses
 - Dynamic typing animations
 - Dark mode support
 - Contact form
@@ -100,6 +101,23 @@ For local development:
 - @vercel/analytics: ^1.1.1
 - Typed.js: ^2.0.12
 
+## 🤖 AI Model Information
+
+**Current Model**: Google Gemini 2.5 Flash Preview 05-20
+
+- **Release Date**: May 2025 (Latest Available)
+- **Capabilities**:
+  - Adaptive thinking for enhanced accuracy
+  - Multimodal support (text, images, audio, video)
+  - Structured outputs
+  - Function calling
+  - Code execution
+  - Search grounding
+- **Free Tier Limits**:
+  - 10 requests per minute
+  - 250,000 tokens per minute
+  - 500 requests per day
+
 ## 🤝 Contributing
 
 Feel free to:
@@ -121,7 +139,8 @@ Website portfolio pribadi yang dilengkapi dengan chatbot AI menggunakan Google G
 ## 🌟 Fitur
 
 - Desain modern dan responsif
-- Chatbot AI yang didukung oleh Google Gemini 2.0 Flash
+- Chatbot AI yang didukung oleh Google Gemini 2.5 Flash Preview (Model Terbaru - Mei 2025)
+- Kemampuan adaptive thinking untuk respons yang lebih akurat
 - Animasi pengetikan dinamis
 - Mendukung mode gelap
 - Formulir kontak
